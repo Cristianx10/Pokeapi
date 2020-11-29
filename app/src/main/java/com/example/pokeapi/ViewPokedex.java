@@ -21,6 +21,7 @@ import com.example.pokeapi.comm.Actions;
 import com.example.pokeapi.model.Entrenador;
 import com.example.pokeapi.model.ItemPokemon;
 import com.example.pokeapi.model.Pokemon;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,7 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class ViewPokedex extends AppCompatActivity {
 
@@ -115,6 +118,7 @@ public class ViewPokedex extends AppCompatActivity {
 
     private void onCatchPokemon(View v) {
         String namePokemon = this.et_name_pokemon.getText().toString();
+        adapterManager.onUpdateData(this.entrenador.getPokemones());
         if(namePokemon.equals("")){
 
             Toast.makeText(this, "Escriba el nombre de un pokemon", Toast.LENGTH_SHORT).show();
@@ -122,7 +126,8 @@ public class ViewPokedex extends AppCompatActivity {
         }else{
             this.actions.findPokemon(namePokemon, pokemon -> {
                 if (pokemon != null) {
-                    ItemPokemon itemPokemon = new ItemPokemon(pokemon.getUid(), pokemon.getName(), pokemon.getImage());
+
+                    ItemPokemon itemPokemon = new ItemPokemon(pokemon.getUid(), pokemon.getName(), pokemon.getImage(), (new Date()).toString());
 
                     FirebaseFirestore.getInstance().collection("users").document(this.entrenador.getName())
                             .collection("pokemones").add(itemPokemon).addOnCompleteListener(task -> {
@@ -132,6 +137,7 @@ public class ViewPokedex extends AppCompatActivity {
 
                             itemPokemon.setUid(uid);
                             this.entrenador.getPokemones().add(itemPokemon);
+
                             this.adapterManager.onAddItem(itemPokemon);
                         }
                     });

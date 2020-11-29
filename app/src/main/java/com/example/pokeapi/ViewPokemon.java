@@ -15,8 +15,11 @@ import com.bumptech.glide.Glide;
 import com.example.pokeapi.model.Entrenador;
 import com.example.pokeapi.model.ItemPokemon;
 import com.example.pokeapi.model.Pokemon;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.UUID;
 
 public class ViewPokemon extends AppCompatActivity {
 
@@ -57,7 +60,6 @@ public class ViewPokemon extends AppCompatActivity {
 
         this.btn_soltar.setOnClickListener(this::onFreePokemon);
 
-
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("pokemones").document(this.itemPokemon.getName()).get()
                 .addOnCompleteListener(task -> {
@@ -78,6 +80,8 @@ public class ViewPokemon extends AppCompatActivity {
                        }
                     }
                 });
+
+
 
     }
 
@@ -101,7 +105,5 @@ public class ViewPokemon extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 }

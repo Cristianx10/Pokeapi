@@ -1,22 +1,24 @@
 package com.example.pokeapi.model;
 
+import com.google.firebase.Timestamp;
+
 import java.io.Serializable;
+
 
 public class ItemPokemon implements Serializable {
 
     private String uid;
     private String name;
     private String image;
+    private String date;
 
-    public ItemPokemon(){
+    public ItemPokemon(){ }
 
-    }
-
-
-    public ItemPokemon(String uid, String name, String image) {
+    public ItemPokemon(String uid, String name, String image, String date) {
         this.uid = uid;
         this.name = name;
         this.image = image;
+        this.date = date;
     }
 
     public String getUid() {
@@ -41,5 +43,13 @@ public class ItemPokemon implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

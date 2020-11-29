@@ -16,6 +16,7 @@ import com.example.pokeapi.model.Entrenador;
 import com.example.pokeapi.model.ItemPokemon;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         this.btn_ingresar = findViewById(R.id.btn_ingresar);
 
         this.btn_ingresar.setOnClickListener(this::onIngresar);
-
-        new Actions();
 
     }
 
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("users")
                 .document(entrenador.getName())
-                .collection("pokemones")
+                .collection("pokemones").orderBy("date", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener((task)->{
                     if(task.isSuccessful()){
